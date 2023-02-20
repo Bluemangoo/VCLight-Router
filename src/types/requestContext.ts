@@ -1,6 +1,6 @@
 export default interface RequestContext {
-    readonly url;
-    readonly query;
-    readonly cookies;
-    readonly method;
+    readonly url: any;
+    readonly query:any;
+    readonly cookies: any;
+    readonly method:string;
 }
