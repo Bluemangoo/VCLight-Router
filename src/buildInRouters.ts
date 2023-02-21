@@ -1,11 +1,11 @@
-import CONTENT_TYPE from "../static/const/CONTENT_TYPE";
-import RequestContext from "../types/requestContext"
-import ResponseContext from "../types/responseContext"
+import RequestContext from "./types/requestContext";
+import ResponseContext from "./types/responseContext";
 
-export async function error404(data: RequestContext, response:ResponseContext) {
-    response.contentType = CONTENT_TYPE.HTML;
-    response.status = 404;
-    response.response = `<!DOCTYPE html>
+class BuildInRouters {
+    public async error404(data: RequestContext, response: ResponseContext) {
+        response.contentType = "text/html";
+        response.status = 404;
+        response.response = `<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -53,5 +53,9 @@ export async function error404(data: RequestContext, response:ResponseContext) {
     <p id="index"><span>>> Return to <a href="/">index</a></span></p>
 </div>
 </body>
-</html>`
+</html>`;
+    }
 }
+
+const buildInRouters = new BuildInRouters();
+export default buildInRouters;

@@ -2,9 +2,8 @@ import ResponseContext from "./types/responseContext";
 import RequestContext from "./types/requestContext";
 import * as url from "url";
 import { serialize } from "cookie";
-import { error404 } from "./buildInRouters/errors";
 import { Response, Plugin } from "vclight";
-import mergeConfig from "./utils/mergeConfig";
+import buildInRouters from "./buildInRouters";
 
 interface Pattern {
     pattern: RegExp;
@@ -13,9 +12,9 @@ interface Pattern {
 
 export default class VCLightRouter implements Plugin {
     constructor(config: {} = {}) {
-        this.config = mergeConfig(config);
-        if(this.config.buildInRouters._404) {
-            this.on("/404/", error404);
+        this.config = this.mergeConfig(config);
+        if (this.config.buildInRouters._404) {
+            this.on("/404/", buildInRouters.error404);
         }
     }
 
@@ -24,6 +23,19 @@ export default class VCLightRouter implements Plugin {
             _404: boolean;
         };
     };
+
+    mergeConfig(config: any) {
+        const defaultConfig = {
+            buildInRouters: {
+                _404: true
+            }
+        };
+
+        let mergedConfig = { ...defaultConfig, ...config };
+        mergedConfig.buildInRouters = { ...defaultConfig.buildInRouters, ...mergedConfig.buildInRouters };
+
+        return mergedConfig;
+    }
 
     public on(event: string, fn: (data: RequestContext, response: ResponseContext) => void) {
         if (this.events[event]) {
@@ -106,5 +118,4 @@ export default class VCLightRouter implements Plugin {
 
     async after(request: any, response: any, responseContent: Response): Promise<void> {
     }
-
 }
