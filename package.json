@@ -1,5 +1,5 @@
 {
-  "name": "@vclight/router",
+  "name": "vclight-router",
   "version": "1.0.0",
   "description": "Router for VCLight",
   "author": "Bluemangoo",
@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "cookie": "^0.5.0",
-    "vclight": "^1.0.0"
+    "vclight": "^1.0.1"
   }
 }
