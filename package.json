@@ -23,6 +23,6 @@
   },
   "dependencies": {
     "cookie": "^0.5.0",
-    "vclight": "../VCLight"
+    "vclight": "^1.0.0"
   }
 }

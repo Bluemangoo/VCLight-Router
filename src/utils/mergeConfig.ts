@@ -7,6 +7,6 @@ export default function(config: any) {
 
 const defaultConfig = {
     buildInRouters: {
-        err404: true
+        _404: true
     }
 };

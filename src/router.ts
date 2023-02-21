@@ -14,11 +14,16 @@ interface Pattern {
 export default class VCLightRouter implements Plugin {
     constructor(config: {} = {}) {
         this.config = mergeConfig(config);
-
-        this.on("/404/", error404);
+        if(this.config.buildInRouters._404) {
+            this.on("/404/", error404);
+        }
     }
 
-    readonly config: {};
+    readonly config: {
+        buildInRouters: {
+            _404: boolean;
+        };
+    };
 
     public on(event: string, fn: (data: RequestContext, response: ResponseContext) => void) {
         if (this.events[event]) {
