@@ -39,6 +39,14 @@ export default class VCLightRouter implements Plugin {
         return mergedConfig;
     }
 
+    /**
+     * Add a regular router
+     *
+     * Tips: event should be started and ended with "/". Example: "/event/"
+     *
+     * @param event the event.
+     * @param fn
+     */
     public on(event: string, fn: (data: RequestContext, response: ResponseContext) => void) {
         if (this.events[event]) {
             console.warn(`Warning: event ${event} have been redefined`);
@@ -46,10 +54,21 @@ export default class VCLightRouter implements Plugin {
         this.events[event] = fn;
     }
 
+    /**
+     * Add a pattern router
+     *
+     * @param pattern the regular expression to match path
+     * @param fn the function to process the request
+     */
     public pattern(pattern: RegExp, fn: (data: RequestContext, response: ResponseContext) => void) {
         this.eventPatterns[this.eventPatterns.length] = { pattern, fn };
     }
 
+    /**
+     * Get the function to process request
+     *
+     * @param event the event
+     */
     public get(event: string): (data: RequestContext, response: ResponseContext) => void {
         if (this.events?.[event]) {
             return this.events?.[event];
