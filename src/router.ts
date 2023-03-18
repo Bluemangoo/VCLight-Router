@@ -2,8 +2,10 @@ import ResponseContext from "./types/responseContext";
 import RequestContext from "./types/requestContext";
 import * as url from "url";
 import { serialize } from "cookie";
-import { Response, Plugin } from "vclight";
+import VCLight, { Response, Plugin } from "vclight";
 import buildInRouters from "./buildInRouters";
+import { VercelRequest } from "@vercel/node";
+import { ServerResponse } from "http";
 
 interface Pattern {
     pattern: RegExp;
@@ -18,13 +20,13 @@ export default class VCLightRouter implements Plugin {
         }
     }
 
-    readonly config: {
+    private readonly config: {
         buildInRouters: {
             _404: boolean;
         };
     };
 
-    mergeConfig(config: any) {
+    private mergeConfig(config: any) {
         const defaultConfig = {
             buildInRouters: {
                 _404: true
@@ -70,14 +72,45 @@ export default class VCLightRouter implements Plugin {
     } = {};
     private eventPatterns: Pattern[] = [];
 
-    async init(): Promise<void> {
-        return Promise.resolve(undefined);
+
+    private broken = false;
+
+
+    /**
+     * If called, the function process will be skipped.
+     */
+    breakRouter() {
+        this.broken = true;
     }
 
-    async process(request: any, response: any, responseContent: Response): Promise<void> {
+    /**
+     * Init this instance.
+     *
+     * Do not call this function unless inside VCLight app.
+     *
+     * @param request VercelRequest
+     * @param app VCLight app
+     */
+    async init(request: VercelRequest, app: VCLight): Promise<void> {
+    }
+
+    /**
+     * Process request.
+     *
+     * Do not call this function unless inside VCLight app.
+     *
+     * @param request VercelRequest
+     * @param response ServerResponse(VercelResponse)
+     * @param responseContent Response content
+     * @param app
+     */
+    async process(request: VercelRequest, response: ServerResponse, responseContent: Response, app: VCLight): Promise<void> {
+        if (this.broken) {
+            return;
+        }
 
         //finding process function
-        const parsedUrl = url.parse(request.url);
+        const parsedUrl = url.parse(<string>request.url);
         const fn: (data: RequestContext, response: ResponseContext) => void = this.get(<string>parsedUrl.pathname);
 
         //prepare request data
@@ -85,7 +118,7 @@ export default class VCLightRouter implements Plugin {
             url: parsedUrl.pathname,
             query: request.query,
             cookies: request.cookies,
-            method: request.method
+            method: <string>request.method
         };
         const responseContext = new ResponseContext();
 
@@ -114,8 +147,5 @@ export default class VCLightRouter implements Plugin {
         if (responseContext.cache > 0) {
             response.setHeader("cache-control", "stale-while-revalidate=" + responseContext.cache.toString());
         }
-    }
-
-    async after(request: any, response: any, responseContent: Response): Promise<void> {
     }
 }
