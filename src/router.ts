@@ -163,7 +163,7 @@ export default class VCLightRouter implements Plugin {
         }
 
         response.setHeader("content-type", responseContext.contentType);
-        if (responseContext.cache > 0) {
+        if (responseContext.cache) {
             response.setHeader("cache-control", "stale-while-revalidate=" + responseContext.cache.toString());
         }
     }
