@@ -140,7 +140,7 @@ export default class VCLightRouter implements Plugin {
             cookies: request.cookies,
             method: <string>request.method
         };
-        const responseContext = new ResponseContext();
+        const responseContext = new ResponseContext(responseContent);
 
         //processing
         await fn(requestContext, responseContext);
@@ -163,7 +163,9 @@ export default class VCLightRouter implements Plugin {
             response.setHeader("Set-Cookie", cookie);
         }
 
-        response.setHeader("content-type", responseContext.contentType);
+        if (responseContext.contentType) {
+            response.setHeader("content-type", responseContext.contentType);
+        }
         if (responseContext.cache) {
             response.setHeader("cache-control", "stale-while-revalidate=" + responseContext.cache.toString());
         }

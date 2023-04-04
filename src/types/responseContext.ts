@@ -12,12 +12,12 @@ export default class ResponseContext {
         }
     }
 
-    public redirect: boolean = false;
-    public redirectUrl: string = "/";
+    public redirect: boolean | undefined;
+    public redirectUrl: string | undefined;
     public status: number = 200;
-    public contentType: string = "text/plain";
+    public contentType: string | undefined;
     public builder: ResponseBuilder | undefined;
     public cache: number | undefined;
-    public response: any = "";
+    public response: any;
     public cookie: CookieElement[] = [];
 }
