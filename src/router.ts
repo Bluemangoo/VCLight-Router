@@ -136,7 +136,7 @@ export default class VCLightRouter implements Plugin {
         const requestContext: RequestContext = {
             url: parsedUrl.pathname,
             query: request.query,
-            body: request.body,
+            body: request?.body,
             cookies: request.cookies,
             method: <string>request.method
         };
