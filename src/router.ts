@@ -1,6 +1,5 @@
 import ResponseContext from "./types/responseContext";
 import RequestContext from "./types/requestContext";
-import * as url from "url";
 import { serialize } from "cookie";
 import VCLight, { Response, Plugin } from "vclight";
 import buildInRouters from "./buildInRouters";
@@ -129,14 +128,20 @@ export default class VCLightRouter implements Plugin {
         }
 
         //finding process function
-        const parsedUrl = url.parse(<string>request.url);
+        const parsedUrl = new URL(<string>request.url);
         const fn: (data: RequestContext, response: ResponseContext) => void = this.get(<string>parsedUrl.pathname);
 
         //prepare request data
         const requestContext: RequestContext = {
             url: parsedUrl.pathname,
             query: request.query,
-            body: request?.body,
+            body: (() => {
+                try {
+                    return request.body;
+                } catch {
+                    return null;
+                }
+            })(),
             cookies: request.cookies,
             method: <string>request.method
         };
