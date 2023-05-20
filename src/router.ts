@@ -128,7 +128,7 @@ export default class VCLightRouter implements Plugin {
         }
 
         //finding process function
-        const parsedUrl = new URL(<string>request.url);
+        const parsedUrl = new URL(`https://foo.bar${request.url}`);
         const fn: (data: RequestContext, response: ResponseContext) => void = this.get(<string>parsedUrl.pathname);
 
         //prepare request data
