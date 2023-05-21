@@ -5,6 +5,7 @@ import VCLight, { Response, Plugin } from "vclight";
 import buildInRouters from "./buildInRouters";
 import { VercelRequest } from "@vercel/node";
 import { ServerResponse } from "http";
+import VCLightRouterConfig from "./types/vclightRouterConfig";
 
 interface Pattern {
     pattern: RegExp;
@@ -12,7 +13,7 @@ interface Pattern {
 }
 
 export default class VCLightRouter implements Plugin {
-    constructor(config: {} = {}) {
+    constructor(config: VCLightRouterConfig = {}) {
         this.config = this.mergeConfig(config);
         if (this.config.buildInRouters._404) {
             this.on("/404/", buildInRouters.error404);
