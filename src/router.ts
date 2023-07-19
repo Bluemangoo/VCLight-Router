@@ -20,13 +20,13 @@ export default class VCLightRouter implements Plugin {
         }
     }
 
-    private readonly config: {
+    protected readonly config: {
         buildInRouters: {
             _404: boolean;
         };
     };
 
-    private mergeConfig(config: any) {
+    protected mergeConfig(config: any) {
         const defaultConfig = {
             buildInRouters: {
                 _404: true
@@ -86,13 +86,13 @@ export default class VCLightRouter implements Plugin {
         return this.events["/404/"];
     }
 
-    private events: {
+    protected events: {
         [key: string]: any;
     } = {};
-    private eventPatterns: Pattern[] = [];
+    protected eventPatterns: Pattern[] = [];
 
 
-    private broken = false;
+    protected broken = false;
 
 
     /**
