@@ -9,7 +9,7 @@ import VCLightRouterConfig from "./types/vclightRouterConfig";
 
 interface Pattern {
     pattern: RegExp;
-    fn: (data: RequestContext, response: ResponseContext) => void;
+    fn: (data: RequestContext, response: ResponseContext) => Promise<void>;
 }
 
 export default class VCLightRouter implements Plugin {
@@ -60,7 +60,7 @@ export default class VCLightRouter implements Plugin {
      * @param pattern the regular expression to match path
      * @param fn the function to process the request
      */
-    public pattern(pattern: RegExp, fn: (data: RequestContext, response: ResponseContext) => void) {
+    public pattern(pattern: RegExp, fn: (data: RequestContext, response: ResponseContext) => Promise<void>) {
         this.eventPatterns[this.eventPatterns.length] = { pattern, fn };
     }
 
@@ -69,7 +69,7 @@ export default class VCLightRouter implements Plugin {
      *
      * @param event the event
      */
-    public get(event: string): (data: RequestContext, response: ResponseContext) => void {
+    public get(event: string): (data: RequestContext, response: ResponseContext) => Promise<void> {
         if (this.events?.[event]) {
             return this.events?.[event];
         }
@@ -130,7 +130,7 @@ export default class VCLightRouter implements Plugin {
 
         //finding process function
         const parsedUrl = new URL(`https://foo.bar${request.url}`);
-        const fn: (data: RequestContext, response: ResponseContext) => void = this.get(<string>parsedUrl.pathname);
+        const fn: (data: RequestContext, response: ResponseContext) => Promise<void> = this.get(<string>parsedUrl.pathname);
 
         //prepare request data
         const requestContext: RequestContext = {
