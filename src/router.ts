@@ -144,7 +144,8 @@ export default class VCLightRouter implements Plugin {
                 }
             })(),
             cookies: request.cookies,
-            method: <string>request.method
+            method: <string>request.method,
+            headers: request.headers
         };
         const responseContext = new ResponseContext(responseContent);
 
