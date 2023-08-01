@@ -24,13 +24,15 @@ export default class VCLightRouter implements VCLightMiddleware {
         buildInRouters: {
             _404: boolean;
         };
+        use404Router: boolean
     };
 
     protected mergeConfig(config: any) {
-        const defaultConfig = {
+        const defaultConfig: VCLightRouterConfig = {
             buildInRouters: {
                 _404: true
-            }
+            },
+            use404Router: true
         };
 
         let mergedConfig = { ...defaultConfig, ...config };
@@ -83,7 +85,12 @@ export default class VCLightRouter implements VCLightMiddleware {
                 return this.eventPatterns[pattern].fn;
             }
         }
-        return this.events["/404/"];
+        if (this.config.use404Router) {
+            return this.events["/404/"];
+        } else {
+            return async (_data, _response) => {
+            };
+        }
     }
 
     protected events: {
