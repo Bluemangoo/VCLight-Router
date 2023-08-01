@@ -1,7 +1,7 @@
 import ResponseContext from "./types/responseContext";
 import RequestContext from "./types/requestContext";
 import { serialize } from "cookie";
-import VCLight, { Response, Plugin } from "vclight";
+import VCLight, { VCLightResponse, VCLightMiddleware } from "vclight";
 import buildInRouters from "./buildInRouters";
 import { VercelRequest } from "@vercel/node";
 import { ServerResponse } from "http";
@@ -12,7 +12,7 @@ interface Pattern {
     fn: (data: RequestContext, response: ResponseContext) => Promise<void>;
 }
 
-export default class VCLightRouter implements Plugin {
+export default class VCLightRouter implements VCLightMiddleware {
     constructor(config: VCLightRouterConfig = {}) {
         this.config = this.mergeConfig(config);
         if (this.config.buildInRouters._404) {
@@ -123,7 +123,7 @@ export default class VCLightRouter implements Plugin {
      * @param responseContent Response content
      * @param app
      */
-    async process(request: VercelRequest, response: ServerResponse, responseContent: Response, app: VCLight): Promise<void> {
+    async process(request: VercelRequest, response: ServerResponse, responseContent: VCLightResponse, app: VCLight): Promise<void> {
         if (this.broken) {
             return;
         }
