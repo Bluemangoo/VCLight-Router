@@ -51,6 +51,11 @@ class BuildInRouters {
     <br>
     <br>
     <p id="index"><span>>> Return to <a href="/">index</a></span></p>
+    <br>
+    <br>
+    <span style="color: #777;font: 10px/17px arial, sans-serif">Powered by <a href="https://github.com/Bluemangoo/VCLight" >VCLight.</a></span>
+    <br>
+    <br>
 </div>
 </body>
 </html>`;
