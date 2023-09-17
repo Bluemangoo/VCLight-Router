@@ -17,13 +17,15 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@types/cookie": "^0.5.1",
-    "@types/node": "^20.2.1",
-    "@vercel/node": "^2.14.3",
-    "typescript": "^5.0.4"
+    "@types/cookie": "^0.5.2",
+    "@types/node": "^20.6.2",
+    "@vercel/node": "^3.0.5",
+    "typescript": "^5.2.2"
   },
   "dependencies": {
-    "cookie": "^0.5.0",
+    "cookie": "^0.5.0"
+  },
+  "peerDependencies": {
     "vclight": "^1.2.0"
   }
 }
