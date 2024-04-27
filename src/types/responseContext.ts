@@ -11,6 +11,7 @@ export default class ResponseContext {
     public redirectUrl: string | undefined;
     public response: any;
     public status: number = 200;
+    public end: boolean = false;
 
     constructor(responseContent?: VCLightResponse) {
         if (responseContent) {
@@ -20,6 +21,7 @@ export default class ResponseContext {
             this.redirectUrl = responseContent.redirectUrl;
             this.response = responseContent.response;
             this.status = responseContent.status;
+            this.end = responseContent.end;
         }
     }
 }

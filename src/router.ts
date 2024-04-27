@@ -99,25 +99,17 @@ export default class VCLightRouter implements VCLightMiddleware {
     protected eventPatterns: Pattern[] = [];
 
 
-    protected broken = false;
-
-
     /**
-     * If called, the function process will be skipped.
-     */
-    breakRouter() {
-        this.broken = true;
-    }
-
-    /**
-     * Init this instance.
+     * Post task of this instance.
      *
      * Do not call this function unless inside VCLight app.
      *
-     * @param request VercelRequest
-     * @param app VCLight app
+     * @param _request VercelRequest
+     * @param _response ServerResponse(VercelResponse)
+     * @param _responseContent Response content
+     * @param _app VCLight app
      */
-    async init(request: VercelRequest, app: VCLight): Promise<void> {
+    async post(_request: VercelRequest, _response: ServerResponse, _responseContent: VCLightResponse, _app: VCLight): Promise<void> {
     }
 
     /**
@@ -128,10 +120,10 @@ export default class VCLightRouter implements VCLightMiddleware {
      * @param request VercelRequest
      * @param response ServerResponse(VercelResponse)
      * @param responseContent Response content
-     * @param app
+     * @param _app VCLight app
      */
-    async process(request: VercelRequest, response: ServerResponse, responseContent: VCLightResponse, app: VCLight): Promise<void> {
-        if (this.broken) {
+    async process(request: VercelRequest, response: ServerResponse, responseContent: VCLightResponse, _app: VCLight): Promise<void> {
+        if (responseContent.end) {
             return;
         }
 
