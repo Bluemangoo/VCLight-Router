@@ -104,12 +104,12 @@ export default class VCLightRouter implements VCLightMiddleware {
      *
      * Do not call this function unless inside VCLight app.
      *
-     * @param _request VercelRequest
-     * @param _response ServerResponse(VercelResponse)
-     * @param _responseContent Response content
-     * @param _app VCLight app
+     * @param request VercelRequest
+     * @param response ServerResponse(VercelResponse)
+     * @param responseContent Response content
+     * @param app VCLight app
      */
-    async post(_request: VercelRequest, _response: ServerResponse, _responseContent: VCLightResponse, _app: VCLight): Promise<void> {
+    async post(request: VercelRequest, response: ServerResponse, responseContent: VCLightResponse, app: VCLight): Promise<void> {
     }
 
     /**
@@ -120,9 +120,9 @@ export default class VCLightRouter implements VCLightMiddleware {
      * @param request VercelRequest
      * @param response ServerResponse(VercelResponse)
      * @param responseContent Response content
-     * @param _app VCLight app
+     * @param app VCLight app
      */
-    async process(request: VercelRequest, response: ServerResponse, responseContent: VCLightResponse, _app: VCLight): Promise<void> {
+    async process(request: VercelRequest, response: ServerResponse, responseContent: VCLightResponse, app: VCLight): Promise<void> {
         if (responseContent.end) {
             return;
         }
